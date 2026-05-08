@@ -1,2 +1,11 @@
-*/input
-.venv
+# Python package build metadata
+*.egg-info/
+*.egg-info
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Python virtual environment
+.venv/
+venv/
+env/

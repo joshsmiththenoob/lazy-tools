@@ -5,7 +5,7 @@ from openpyxl.worksheet.worksheet import Worksheet
 
 # 共用顏色
 FILL_YELLOW = PatternFill(start_color="FFF5CC", end_color="FFF5CC", fill_type="solid")
-FILL_RED    = PatternFill(start_color="FFECEC", end_color="FFECEC", fill_type="solid")
+FILL_RED = PatternFill(start_color="FF0000", end_color="FF0000", fill_type="solid")
 FILL_GREEN  = PatternFill(start_color="E8F5E9", end_color="E8F5E9", fill_type="solid")
 FILL_ORANGE = PatternFill(start_color="FFA500", end_color="FFA500", fill_type="solid")
 FILL_BLUE   = PatternFill(start_color="E3F2FD", end_color="E3F2FD", fill_type="solid")
