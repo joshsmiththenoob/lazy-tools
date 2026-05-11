@@ -18,4 +18,4 @@ class ExcelTableAdapter(DataAdapter):
         return self.__convert_to_dataframe(raw_df)
     
     def __convert_to_dataframe(self, raw_df: pd.DataFrame) -> pd.DataFrame:
-        pass
+        return raw_df
