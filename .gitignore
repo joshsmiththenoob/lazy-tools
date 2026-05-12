@@ -9,3 +9,7 @@
 .venv/
 venv/
 env/
+
+# PyInstaller build outputs
+build/
+dist/
