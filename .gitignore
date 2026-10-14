@@ -13,3 +13,4 @@ env/
 # PyInstaller build outputs
 build/
 dist/
+*.bkp

@@ -26,7 +26,8 @@ def resource_path(relative_path: str) -> Path:
     return Path(__file__).resolve().parent / relative_path
 class ComparatorApp:
     def __init__(self):
-        self.root = tk.Tk()
+        # Main application window setup
+        self.root = tk.Tk()                      # Main application window
         self.root.title("Word / Excel 比對工具")
         self.root.geometry("900x600")
         self.root.resizable(False, False)
@@ -43,7 +44,9 @@ class ComparatorApp:
         self._build_ui()
 
     def _build_ui(self):
-        self._build_background()
+        # Canvas allows custom drawing, background images, and coordinate-based placement (The regular layout is Frame).
+        # Therefore, the canvas and background must be created first in this UI.
+        self._build_background() 
         self._build_title_section()
         self._build_theme_button()
         self._build_file_section()
@@ -57,11 +60,12 @@ class ComparatorApp:
         bg_path = resource_path(f"gui/assets/{bg_filename}")
         # bg_path = resource_path(f"assets/{bg_filename}")
 
-
+        # Initialize background image
         bg_image = Image.open(bg_path)
         bg_image = bg_image.resize((WINDOW_WIDTH, WINDOW_HEIGHT))
         self.bg_photo = ImageTk.PhotoImage(bg_image)
 
+        # Create canvas f
         self.canvas = tk.Canvas(
             self.root,
             width=WINDOW_WIDTH,
@@ -367,9 +371,13 @@ class ComparatorApp:
         self.theme_name = "dark" if self.theme_name == "light" else "light"
         self.theme = THEMES[self.theme_name]
 
+        
+        # Destroy all existing widgets before rebuilding the UI
         for child in self.root.winfo_children():
             child.destroy()
 
+            
+        # Rebuild the entire UI with the selected theme
         self._build_ui()
 
     def _build_status_section(self):

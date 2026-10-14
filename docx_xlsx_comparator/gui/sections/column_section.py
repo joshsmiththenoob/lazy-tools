@@ -93,6 +93,7 @@ class ColumnSection:
             fg=self.theme["green"]
         ).pack(anchor="w")
 
+        # Initialize row key listbox (Listbox for selecting common row keys based on the selected key column)
         self.row_key_listbox = tk.Listbox(
             row_frame,
             selectmode="multiple",
@@ -119,6 +120,7 @@ class ColumnSection:
             fg=self.theme["green"]
         ).pack(anchor="w")
 
+        # Initialize compare column listbox (Listbox for selecting columns to compare)
         self.compare_col_listbox = tk.Listbox(
             compare_frame,
             selectmode="multiple",
