@@ -29,6 +29,7 @@ class PDFTableAdapter(DataAdapter):
         with pdfplumber.open(self.path) as pdf:
             for page_number, page in enumerate(pdf.pages, start=1):
                 try:
+                    major_category = self._detect_major_category(page.extract_text())
                     table_data = page.extract_table()
 
                     # print(len(table_data))
@@ -36,7 +37,7 @@ class PDFTableAdapter(DataAdapter):
                     if not table_data:
                         raise ValueError("找不到表格")
 
-                    frames.append(self._normalize(table_data))
+                    frames.append(self._normalize(table_data, major_category))
 
                 # # 清理欄名；空欄名先給唯一名稱，保留原本的資料欄
                 # columns = [clean_label(column) or f"unnamed_{index}" for index, column in enumerate(table_data[0])]
@@ -68,7 +69,7 @@ class PDFTableAdapter(DataAdapter):
             # return d
 
 
-    def _normalize(self, table) -> pd.DataFrame:
+    def _normalize(self, table, major_category) -> pd.DataFrame:
         # Check if record in table got 10 columns
         if len(table[0]) != 10:
             raise ValueError("目前尚未支援這個表格版型")
@@ -103,10 +104,11 @@ class PDFTableAdapter(DataAdapter):
 
             for column, year in years:
                 records.append([
+                    major_category,
                     crop,
                     year,
                     metric,
-                    clean_label(row[3]), # unt 
+                    clean_label(row[3]), # unit
                     normalize_value(row[column]), #value 
                 ])
 
