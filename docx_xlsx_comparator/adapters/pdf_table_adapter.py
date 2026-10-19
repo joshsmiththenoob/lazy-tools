@@ -13,6 +13,7 @@ from ..utils.normalization import (
     clean_label,
     normalize_category,
     normalize_value,
+    normalize_crop_name
 )
 
 class PDFTableAdapter(DataAdapter):
@@ -94,7 +95,7 @@ class PDFTableAdapter(DataAdapter):
 
         # The rest content of the table will be clean and filter by statistics index
         for row in table[1:]:
-            crop = clean_label(row[0]) or crop
+            crop = normalize_crop_name(row[0]) or crop
             metric = metric_map.get(clean_label(row[1]))
 
             if not metric:

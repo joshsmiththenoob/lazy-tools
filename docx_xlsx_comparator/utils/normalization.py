@@ -4,7 +4,7 @@ import unicodedata
 import pandas as pd
 
 COMMON_COLUMNS = [
-    "大項", "作物", "年度", "指標", "單位", "數值"
+    "作物", "年度", "指標", "單位", "數值"
 ]
 
 MAJOR_CATEGORY_MAPPING = {
@@ -44,3 +44,8 @@ def clean_label(text: str | None) -> str:
     """
     text = unicodedata.normalize("NFKC", text or "")
     return re.sub(r"\s+", "", text)
+
+
+def normalize_crop_name(value: str | None) -> str:
+    name = clean_label(value)
+    return name.lstrip("*")

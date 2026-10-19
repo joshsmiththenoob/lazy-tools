@@ -8,7 +8,7 @@ from .base import DataAdapter
 import pandas as pd
 import re
 from ..utils.normalization import (
-    COMMON_COLUMNS, clean_label, normalize_value
+    COMMON_COLUMNS, clean_label, normalize_value, normalize_crop_name
 )
 
 class ExcelTableAdapter(DataAdapter):
@@ -45,6 +45,10 @@ class ExcelTableAdapter(DataAdapter):
         years = raw.iloc[1].replace("", pd.NA).ffill()
         records = []
 
+        # 處理多大項之交叉空白表格
+        years = raw.iloc[1].replace("", pd.NA).ffill()
+        categories = raw.iloc[2].replace("", pd.NA).ffill()
+
         # 第五列開始是指標資料
         for _, row in raw.iloc[4:].iterrows():
             match = re.fullmatch(
@@ -55,19 +59,25 @@ class ExcelTableAdapter(DataAdapter):
                 continue
 
             category, metric, unit = match.groups()
+            category = clean_label(category)
 
             for column in range(1, raw.shape[1]):
+                column_category = clean_label(categories.iloc[column])
+
+                # 果品資料列只讀果品欄；特作資料列只讀特作欄。
+                if column_category != category:
+                    continue
+
+
                 year = re.fullmatch(
                     r"(\d+)年", clean_label(years.iloc[column])
                 )
-                crop = clean_label(raw.iloc[3, column])
+                crop = normalize_crop_name(raw.iloc[3, column])
 
                 if year and crop:
                     records.append([
-                        category,
                         crop,
                         int(year.group(1)),
-                        "實績",
                         metric,
                         unit,
                         normalize_value(
